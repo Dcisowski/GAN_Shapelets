@@ -1,0 +1,29 @@
+
+epochs : 19000
+batch_size : 16
+checkpoint : ''
+gp_weight : 10
+critic_iterations : 5
+print_every : 200
+checkpoint_frequency : 200
+learning_rate : 0.00005
+sines:
+    frequency_range:
+        - 0
+        - 2
+    amplitude_range:
+        - 0
+        - 2
+    n_series: 200
+    datapoints: 100
+    seed: 42
+arma:
+    AR : 0.7
+    MA : 0.1 
+    n_series: 100
+    datapoints: 100
+    seed: 42
+num_classes: 5
+gen_embedding: 50
+size: 100
+print_and_save : True
