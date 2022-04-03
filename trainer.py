@@ -128,31 +128,26 @@ class Trainer:
         # Define noise_shape
         noise_shape = (1, self.NOISE_LENGTH)
         
-        # Create folder for storing losses and latents plots as well as 
-        # folder for storing checkpoints
+        # Create folder for storing losses plots and folder for storing checkpoints
         _date = f'_{date.today().strftime("%b_%d_%Y")}_{datetime.now().strftime("%H_%M_%S")}_'
         
         losses_path = os.path.join('training_samples', 'Losses', _date)
-        #fixed_latents_path = os.path.join('training_samples', 'fixed_latents', _date)
-        #dynamic_latents_path = os.path.join('training_samples', 'dynamic_latents', _date)
+
         checkpoints_path = os.path.join('checkpoints', _date)
         
         os.mkdir(losses_path)
-            #os.mkdir(fixed_latents_path)
-            #os.mkdir(dynamic_latents_path)
         os.mkdir(checkpoints_path)
         
         #if self.use_cuda: data_loader.cuda()
             
         if plot_training_samples:
-            # Fix latents to see how series generation improves during training
+
             fixed_latents = Variable(utils.sample_latent(noise_shape))
             if self.use_cuda:
                 fixed_latents = fixed_latents.cuda()
 
         for epoch in tqdm(range(epochs)):
 
-            # Sample a different region of the latent distribution to check for mode collapse
             dynamic_latents = Variable(utils.sample_latent(noise_shape))
             if self.use_cuda:
                 dynamic_latents = dynamic_latents.cuda()
@@ -172,40 +167,18 @@ class Trainer:
 
             if plot_training_samples and (epoch % self.print_every == 0) :
                 self.g.eval()
-                #Generate fake data using both fixed and dynamic latents
-#                fake_data_fixed_latents = self.g(fixed_latents).cpu().data
- #               fake_data_dynamic_latents = self.g(dynamic_latents).cpu().data
-
-                #plt.figure()
-                #plt.plot(fake_data_fixed_latents.numpy()[0].T)
-                #fl_path = os.path.join(fixed_latents_path, f'{epoch}_epoch.png')
-                #plt.savefig(fl_path)
-                #plt.close()
-
-                #plt.figure()
-                #plt.plot(fake_data_dynamic_latents.numpy()[0].T)
-                #dl_path = os.path.join(dynamic_latents_path, f'{epoch}_epoch.png')
-                #plt.savefig(dl_path)
-                #plt.close()
-                
                 fig, ax = plt.subplots()
                 ax.plot(self.losses['c'], label='Critic')
                 ax.plot(self.losses['GP'], label='Gradient Penalty')
                 ax.plot(self.losses['gradient_norm'], label='Gradient Norm')
                 ax.plot(self.losses['g'], label='Generator')
-                leg = ax.legend();
+                leg = ax.legend()
                 ls_path = os.path.join(losses_path, f'{epoch}_epoch.png')
                 plt.savefig(ls_path)
                 plt.close()
                 
                 self.g.train()
 
-
-    #@staticmethod
-    #def sample_latent(shape):
-    #    return torch.randn(shape)
-
-    
 
 
     

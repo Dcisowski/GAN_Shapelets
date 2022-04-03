@@ -1,4 +1,4 @@
-epochs : 23000
+epochs : 19000
 batch_size : 16
 checkpoint : ''
 gp_weight : 10
@@ -19,11 +19,14 @@ sines:
 arma:
     AR : 0.7
     MA : 0.1 
-    n_series: 200
+    n_series: 100
     datapoints: 100
     seed: 42
-num_classes: 2
+num_classes: 5
 gen_embedding: 50
 size: 100
 print_and_save : True
-
+load_generator : True
+generator_path :
+    timestamp : "_Aug_30_2021_14_14_56_"
+    epoch : "18800_epoch"

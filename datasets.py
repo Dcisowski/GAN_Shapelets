@@ -100,16 +100,7 @@ class ARMA(Dataset):
 class Composed(Dataset):
 
     def __init__(self, sines_dict: dict, arma_dict: dict):
-        """
-        Pytorch Dataset to sample a given ARMA process.
-        
-        y = ARMA(p,q)
-        :param p: AR parameters
-        :param q: MA parameters
-        :param seed: random seed
-        :param n_series: number of ARMA samples in your dataset
-        :param datapoints: length of each sample
-        """
+
         self.sines = Sines(**sines_dict)
         self.arma = ARMA(**arma_dict)
         self.n_series = sines_dict['n_series'] + arma_dict['n_series']
@@ -134,15 +125,7 @@ class Composed(Dataset):
 class Fixed_Sines(Dataset):
 
     def __init__(self, n_series: int = 200, datapoints: int = 100, seed: int = None):
-        """
-        Pytorch Dataset to produce sines.
-        y = A * sin(B * x)
-        :param frequency_range: range of A
-        :param amplitude_range: range of B
-        :param n_series: number of sines in your dataset
-        :param datapoints: length of each sample
-        :param seed: random seed
-        """
+
         self.n_series = n_series
         self.datapoints = datapoints
         self.seed = seed
